@@ -1,2 +1,2 @@
 # IA-DD
-Tools para desarrollo manejado por IA
+Tools para desarrollo manejado por IA.
