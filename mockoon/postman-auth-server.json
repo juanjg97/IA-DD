@@ -1,0 +1,320 @@
+{
+  "info": {
+    "_postman_id": "88888888-8888-4888-8888-888888888888",
+    "name": "Mock Auth Server",
+    "description": "Collection to test the Mockoon authentication server at http://localhost:3001.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Discovery",
+      "item": [
+        {
+          "name": "Get OpenID configuration",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Discovery exposes token endpoint', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.issuer).to.eql(pm.collectionVariables.get('baseUrl'));",
+                  "  pm.expect(json.token_endpoint).to.eql(pm.collectionVariables.get('baseUrl') + '/oauth/token');",
+                  "  pm.expect(json.grant_types_supported).to.include('client_credentials');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/.well-known/openid-configuration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ".well-known",
+                "openid-configuration"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Token",
+      "item": [
+        {
+          "name": "Request token - JSON body",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns bearer access token', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.access_token).to.be.a('string').and.not.empty;",
+                  "  pm.expect(json.token_type).to.eql('Bearer');",
+                  "  pm.expect(json.expires_in).to.eql(3600);",
+                  "  pm.expect(json.grant_type).to.eql('client_credentials');",
+                  "});",
+                  "",
+                  "pm.test('Returns simulated scopes', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.scope).to.include('people:read');",
+                  "  pm.expect(json.mock_claims.scopes).to.include('people:read');",
+                  "  pm.expect(json.mock_claims.permissions).to.include('read:people');",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', json.access_token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\",\n  \"grant_type\": \"{{grantType}}\",\n  \"scope\": \"{{scope}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/oauth/token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "oauth",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request token - x-www-form-urlencoded",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns bearer access token', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.access_token).to.be.a('string').and.not.empty;",
+                  "  pm.expect(json.token_type).to.eql('Bearer');",
+                  "  pm.expect(json.scope).to.include('people:read');",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', json.access_token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "{{clientSecret}}",
+                  "type": "text"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "{{grantType}}",
+                  "type": "text"
+                },
+                {
+                  "key": "scope",
+                  "value": "{{scope}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/oauth/token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "oauth",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request token - wrong client secret",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 401', function () {",
+                  "  pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Returns invalid_client error', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.error).to.eql('invalid_client');",
+                  "  pm.expect(json.error_description).to.include('Invalid');",
+                  "  pm.expect(json).to.not.have.property('access_token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{wrongClientSecret}}\",\n  \"grant_type\": \"{{grantType}}\",\n  \"scope\": \"{{scope}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/oauth/token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "oauth",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Response is JSON', function () {",
+          "  pm.response.to.be.json;",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "clientId",
+      "value": "demo-client",
+      "type": "string"
+    },
+    {
+      "key": "clientSecret",
+      "value": "demo-secret",
+      "type": "string"
+    },
+    {
+      "key": "wrongClientSecret",
+      "value": "wrong-secret",
+      "type": "string"
+    },
+    {
+      "key": "grantType",
+      "value": "client_credentials",
+      "type": "string"
+    },
+    {
+      "key": "scope",
+      "value": "people:read people:write planets:read",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

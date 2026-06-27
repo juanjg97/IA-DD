@@ -1,0 +1,178 @@
+{
+  "uuid": "55555555-5555-4555-8555-555555555555",
+  "lastMigration": 33,
+  "name": "Mock Auth Server",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "66666666-6666-4666-8666-666666666661",
+      "type": "http",
+      "documentation": "Discovery endpoint for the mock authentication server.",
+      "method": "get",
+      "endpoint": ".well-known/openid-configuration",
+      "responses": [
+        {
+          "uuid": "77777777-7777-4777-8777-777777777771",
+          "body": "{\n  \"issuer\": \"http://localhost:3001\",\n  \"token_endpoint\": \"http://localhost:3001/oauth/token\",\n  \"grant_types_supported\": [\n    \"client_credentials\"\n  ],\n  \"token_endpoint_auth_methods_supported\": [\n    \"client_secret_post\"\n  ],\n  \"scopes_supported\": [\n    \"people:read\",\n    \"people:write\",\n    \"planets:read\",\n    \"films:read\"\n  ],\n  \"response_types_supported\": [\n    \"token\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Discovery",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "66666666-6666-4666-8666-666666666662",
+      "type": "http",
+      "documentation": "Mock OAuth2 client credentials token endpoint. Send client_id=demo-client, client_secret=demo-secret, grant_type=client_credentials, and optionally scope as JSON or x-www-form-urlencoded data.",
+      "method": "post",
+      "endpoint": "oauth/token",
+      "responses": [
+        {
+          "uuid": "77777777-7777-4777-8777-777777777772",
+          "body": "{\n  \"access_token\": \"mock_access_token_swapi_people_read_write_planets_read\",\n  \"token_type\": \"Bearer\",\n  \"expires_in\": 3600,\n  \"scope\": \"people:read people:write planets:read\",\n  \"issued_token_type\": \"urn:ietf:params:oauth:token-type:access_token\",\n  \"grant_type\": \"client_credentials\",\n  \"mock_claims\": {\n    \"iss\": \"http://localhost:3001\",\n    \"aud\": \"swapi-mock-api\",\n    \"sub\": \"mock-client\",\n    \"client_id\": \"demo-client\",\n    \"scopes\": [\n      \"people:read\",\n      \"people:write\",\n      \"planets:read\"\n    ],\n    \"permissions\": [\n      \"read:people\",\n      \"write:people\",\n      \"read:planets\"\n    ]\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Client credentials token",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "client_id",
+              "value": "demo-client",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "client_secret",
+              "value": "demo-secret",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "grant_type",
+              "value": "client_credentials",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "77777777-7777-4777-8777-777777777773",
+          "body": "{\n  \"error\": \"invalid_client\",\n  \"error_description\": \"Invalid client_id, client_secret, or grant_type\",\n  \"expected\": {\n    \"client_id\": \"demo-client\",\n    \"grant_type\": \"client_credentials\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Invalid credentials",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "WWW-Authenticate",
+              "value": "Bearer error=\"invalid_client\""
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "uuid": "66666666-6666-4666-8666-666666666661",
+      "type": "route"
+    },
+    {
+      "uuid": "66666666-6666-4666-8666-666666666662",
+      "type": "route"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [],
+  "proxyReqHeaders": [],
+  "proxyResHeaders": [],
+  "data": [],
+  "callbacks": []
+}
