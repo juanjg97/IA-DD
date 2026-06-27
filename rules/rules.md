@@ -1,0 +1,62 @@
+{
+    "permissions": {
+        "allow": [
+            "Edit(src/main/java/**)",
+            "Write(src/main/java/**)",
+            "Edit(src/test/java/**)",
+            "Write(src/test/java/**)",
+            "Edit(src/test/resources/**)",
+            "Write(src/test/resources/**)",
+            "Edit(postman/**)",
+            "Write(postman/**)",
+            "Bash(mvn *)",
+            "Bash(java *)",
+            "Bash(git add *)",
+            "Bash(git commit *)",
+            "Bash(git checkout *)",
+            "Bash(git branch *)",
+            "Bash(git status)",
+            "Bash(git log *)",
+            "Bash(git diff *)",
+            "Bash(docker compose *)",
+            "Bash(docker ps)",
+            "Bash(docker logs *)",
+            "Bash(docker exec *)",
+            "WebFetch(domain:docs.spring.io)",
+            "WebFetch(domain:spring.io)",
+            "WebFetch(domain:docs.oracle.com)",
+            "WebFetch(domain:github.com)",
+            "WebFetch(domain:stackoverflow.com)",
+            "WebFetch(domain:docs.docker.com)",
+            "WebFetch(domain:dev.mysql.com)",
+            "WebFetch(domain:rabbitmq.com)",
+            "WebFetch(domain:docs.anthropic.com)",
+            "WebFetch(domain:code.claude.com)"
+        ],
+        "ask": [
+            "WebSearch",
+            "Bash(curl *)",
+            "Bash(kill *)",
+            "Edit(pom.xml)",
+            "Write(pom.xml)",
+            "Edit(src/main/resources/**)",
+            "Write(src/main/resources/**)",
+            "Edit(db/**)",
+            "Write(db/**)",
+            "Edit(Dockerfile)",
+            "Write(Dockerfile)",
+            "Edit(docker-compose*.yml)",
+            "Write(docker-compose*.yml)",
+            "Bash(rm *)",
+            "Bash(rmdir *)"
+        ],
+        "deny": [
+            "Read(.env)",
+            "Read(.env.*)",
+            "Read(**/secrets/**)",
+            "Read(**/*.pem)",
+            "Read(**/*.key)",
+            "Bash(git push *)"
+        ]
+    }
+}
