@@ -5,18 +5,27 @@ Transformar el BRD en documentacion tecnica accionable para agentes implementado
 
 Business Requirements Document (BRD): @BRD
 
+Material de referencia tecnica (opcional): `docs/references/`
+Ademas del BRD, el proyecto puede incluir material de referencia tecnica en la carpeta `docs/references/`: contratos de APIs consumidas (request y response de ejemplo), especificaciones OpenAPI/Swagger, esquemas JSON, ejemplos de payload, formatos de integracion o diccionarios de datos. Este material NO pertenece al BRD (que es solo negocio) pero es entrada valida y prioritaria para construir el PRD.
+
+- Si la carpeta `docs/references/` existe, lee todos sus archivos y usalos como fuente tecnica autoritativa al definir contratos: seccion 4 (Eventos/contratos de entrada), seccion 7 (Modelo de datos), seccion 8 (Integraciones) y seccion 9 (API REST) del PRD General, y las subsecciones 5.2 (Contratos de entrada y salida) y 5.4 (Mensajeria) de cada feature.
+- El BRD manda en el ALCANCE (que se construye); las referencias aportan el DETALLE TECNICO (como son los contratos). No expandas el alcance mas alla del BRD aunque una referencia describa capacidades adicionales; si una referencia excede o contradice el alcance del BRD, conserva el BRD y registra la discrepancia como nota o supuesto.
+- Si la carpeta no existe o esta vacia, trabaja solo con el BRD y marca los contratos no resueltos como `A discusion` o como supuesto explicito.
+- Trata las referencias como archivos locales: no leas `.env` ni secretos y no accedas a internet salvo lo permitido por las reglas.
+
 Restriccion principal:
 El PRD General solo debe definir el contexto tecnico, decisiones transversales, arquitectura, contratos generales, validacion, pruebas, DevOps y la enumeracion de features. No debe incluir detalle de implementacion ni criterios de aceptacion dentro de la lista de features.
 
 La implementacion detallada y los criterios de aceptacion de cada feature deben vivir en un archivo `.md` separado por feature.
 
 Instrucciones generales:
-- Genera un PRD General en Markdown.
+- Genera un PRD General en Markdown nombrado `PRD_General_{NombreProyecto}.md`, donde `{NombreProyecto}` es el nombre del proyecto normalizado a ASCII (sin tildes y sin espacios).
 - Genera un archivo Markdown independiente por cada feature.
 - Si tienes acceso a filesystem, crea los archivos. Si no tienes acceso, responde con bloques separados por ruta de archivo.
 - Usa lenguaje tecnico claro, directo y ejecutable.
 - Mantente fiel al BRD. No agregues objetivos, integraciones, features o complejidad fuera de alcance.
 - El stack base es fijo y debe declararse como decision tecnica. Nucleo siempre presente: Java 21, Spring Boot 3.x, Maven, JaCoCo, JUnit 5 y Mockito. Bases fijas pero condicionales (solo si el proyecto las requiere, y si las requiere deben ser exactamente estas, no una equivalente): MySQL para persistencia y RabbitMQ para mensajeria.
+- Todo el flujo es local. Cualquier herramienta de infraestructura que corra en contenedor (MySQL, RabbitMQ, MongoDB, etc.) debe entregarse como archivo Docker Compose para que el dev la levante y pruebe en local. Esta infra es condicional: declara unicamente los servicios que el proyecto efectivamente use (misma logica condicional del stack); no agregues herramientas fuera de alcance, por ejemplo no incluyas una base NoSQL como MongoDB si el proyecto no la necesita. Como el entorno es exclusivamente local, los valores de configuracion de esos servicios (usuario, password, puerto, nombre de base, vhost, etc.) van dummy y hardcodeados en el compose; nunca secretos reales ni referencias a `.env`. Adaptar estos servicios a otros ambientes es responsabilidad del dev y queda fuera de alcance.
 - Cualquier otra herramienta debe quedar a discusion. No la declares como decision cerrada salvo que el BRD la exija explicitamente.
 - Si falta una decision tecnica fuera del stack base, propone la opcion mas simple, local y conservadora, pero marcala como `A discusion`.
 - Usa nomenclatura de features secuenciales como `F00`, `F01`, `F02`, etc.; `F00` es siempre la feature de estructura base del proyecto.
@@ -30,7 +39,7 @@ Instrucciones generales:
 Rutas de salida esperadas:
 
 ```text
-docs/prd_general_[slug_del_proyecto].md
+docs/PRD_General_{NombreProyecto}.md
 docs/features/F01_[slug_de_la_feature].md
 docs/features/F02_[slug_de_la_feature].md
 docs/features/F03_[slug_de_la_feature].md
@@ -44,7 +53,7 @@ Estructura obligatoria del PRD General:
 **Version:** 1.0
 **Fecha:** [YYYY-MM-DD]
 **Alcance:** [Alcance tecnico resumido]
-**Fuente:** `[nombre_archivo_brd].md`
+**Fuente:** `BRD_General_{NombreProyecto}.md`
 
 ## 1. Contexto General
 Resume el producto desde el punto de vista tecnico. Incluye el flujo tecnico obligatorio en bloque `text` si el sistema tiene flujo secuencial, asincrono o por estados.
@@ -120,6 +129,15 @@ Define reglas generales que aplican a todas las features: respetar alcance, prue
 ## 13. Seccion DevOps Local / Ejecucion Local
 Define solo servicios locales, puertos locales, variables de entorno, archivos esperados y comandos de ejecucion local. Esta seccion no define infraestructura productiva, despliegue cloud, Kubernetes, Terraform, pipelines CI/CD ni operacion en ambientes reales.
 
+Para cada herramienta de infraestructura que el proyecto requiera correr en local (MySQL, RabbitMQ, MongoDB u otra que se haya decidido), declara el entregable de Docker Compose:
+
+- Un `docker-compose.yml` en la raiz del proyecto con un servicio por herramienta requerida (si se justifica separar, se permiten archivos adicionales `docker-compose.*.yml` en la raiz).
+- Valores dummy hardcodeados en el compose (usuario, password, puerto, nombre de base, vhost, etc.); nunca secretos reales ni referencias a `.env`.
+- Puertos publicados hacia localhost y, cuando aplique, volumen local para persistencia.
+- Comandos de operacion: `docker compose up -d` para levantar y `docker compose down` para detener.
+- Orden esperado para probar en local: levantar el compose, ejecutar el DDL de `db/` cuando haya persistencia, y luego correr la app con `mvn spring-boot:run`.
+- El agente deja el compose versionado y listo para ejecutar; adaptar estos servicios a otros ambientes (secretos reales, gestores de configuracion o infraestructura administrada) es responsabilidad del dev y queda fuera de alcance.
+
 ## 14. Fuera De Alcance Tecnico
 Lista explicitamente lo que no debe implementarse tecnicamente.
 
@@ -130,7 +148,7 @@ Estructura obligatoria de cada archivo de feature:
 **Version:** 1.0
 **Fecha:** [YYYY-MM-DD]
 **Feature:** FNN
-**Fuente PRD General:** `docs/prd_general_[slug_del_proyecto].md`
+**Fuente PRD General:** `docs/PRD_General_{NombreProyecto}.md`
 **Estado:** Pendiente
 
 ## 1. Objetivo
@@ -164,6 +182,8 @@ La documentacion de la subseccion 5.7 se materializa como una coleccion de Postm
 
 Si la subseccion 5.3 implica cambios de esquema, el entregable es un script SQL (DDL) en `db/` que el dev ejecuta manualmente en MySQL local; el agente no ejecuta DDL.
 
+Si la subseccion 5.5 (o la feature) introduce o requiere un servicio de infraestructura local (MySQL, RabbitMQ, MongoDB, etc.), el entregable incluye o actualiza ese servicio en el `docker-compose.yml` de la raiz, con valores dummy hardcodeados para uso local; el agente deja el compose listo para levantar.
+
 ## 6. Criterios De Aceptacion
 Define criterios verificables. Usa bullets claros. Incluye comportamiento esperado, validaciones, codigos de respuesta, estados, logs, persistencia o documentacion cuando aplique.
 
@@ -188,4 +208,5 @@ Validacion antes de terminar:
 - La documentacion respeta el alcance del BRD.
 - Cada `RF-xx` y `RNF-xx` del BRD queda cubierto por al menos una feature (ningun requisito se pierde al transformar el BRD en PRD General).
 - La seccion `DevOps Local / Ejecucion Local` se limita a ejecucion local y no incluye infraestructura productiva ni despliegue cloud.
+- Si el proyecto requiere herramientas de infraestructura local, existe el entregable Docker Compose en la raiz con valores dummy hardcodeados y comandos de ejecucion local.
 - No se agregaron integraciones, seguridad, usuarios, frontend, infraestructura o reglas fuera del MVP salvo que el BRD lo pida explicitamente.

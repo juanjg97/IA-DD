@@ -17,7 +17,7 @@ El agente debe preguntar antes de ejecutar comandos `curl` y `kill`, estos deben
 
 ## Metodología
 
-1. **Verificar requisitos** — confirmar que `java` y `mvn` están disponibles y con las versiones correctas. Si la feature usa persistencia, confirmar con el dev que ya ejecutó el script DDL de `db/` en su MySQL local (Docker) antes de la prueba.
+1. **Verificar requisitos** — confirmar que `java` y `mvn` están disponibles y con las versiones correctas. Si la feature usa una herramienta de infraestructura local (MySQL, RabbitMQ, MongoDB, etc.), confirmar con el dev que ya levantó el compose de la raíz (`docker compose up -d`) y, cuando haya persistencia, que ejecutó el script DDL de `db/` en su MySQL local antes de la prueba.
 2. **Levantar en segundo plano** — `mvn spring-boot:run` redirigido a un log.
 3. **Esperar que inicie** — poll sobre el log buscando `Started .*Application`, esperar hasta ~60 s.
 4. **Ejecutar el curl** — si la feature tocó el flujo HTTP, construir la petición desde la colección de Postman en `postman/` (endpoint, método, body), tomando host/puerto/credenciales mock de `functional-test-env.local`. Si no existe colección, validar al menos que la app arrancó (startup/health).
