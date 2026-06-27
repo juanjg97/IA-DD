@@ -31,7 +31,7 @@ Estrategia de ramas (gitflow):
 Al implementar:
 - Respeta estrictamente las indicaciones del archivo de PRD General indicado.
 - En `F00` creas la estructura de paquetes (package-by-layer, según el PRD General); en las features siguientes te basas en la ya implementada.
-- Nunca ejecutes DDL contra la base de datos. Si la feature requiere cambios de esquema, entrega un script SQL listo en `db/` e indica al dev que lo ejecute en su MySQL local (Docker); el esquema productivo es responsabilidad del equipo DBA.
+- Nunca ejecutes cambios de estructura (DDL) contra la base de datos: entrégalos como script SQL listo en `db/` e indica al dev que los ejecute en su MySQL local (Docker); el esquema productivo es responsabilidad del equipo DBA. La manipulación de datos (DML) sí está permitida.
 - Si la feature requiere infraestructura local (MySQL, RabbitMQ, etc.), deja o actualiza el `docker-compose.yml` de la raíz con valores dummy hardcodeados; no ejecutes el compose, lo levanta el dev.
 - Si existe `docs/references/`, úsala como fuente de los contratos y payloads exactos (DTOs, Postman, pruebas).
 
