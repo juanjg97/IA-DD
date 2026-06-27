@@ -8,7 +8,7 @@ Contexto del proyecto:
 
 Instrucciones de salida:
 - Genera un unico archivo Markdown.
-- Nombra el archivo `BRD_General_{NombreProyecto}.md`, donde `{NombreProyecto}` es el nombre del proyecto normalizado a ASCII (sin tildes y sin espacios).
+- Nombra el archivo `docs/BRD_General_{NombreProyecto}.md`, donde `{NombreProyecto}` es el nombre del proyecto normalizado a ASCII (sin tildes y sin espacios).
 - Usa el titulo: "# Business Requirements Document (BRD): [Nombre Del Proyecto]".
 - Usa tono formal, directo y funcional.
 - No incluyas arquitectura tecnica, decisiones de stack, diseno de base de datos, colas, clases, endpoints especificos ni detalle de implementacion.

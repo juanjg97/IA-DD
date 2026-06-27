@@ -19,13 +19,13 @@ El PRD General solo debe definir el contexto tecnico, decisiones transversales, 
 La implementacion detallada y los criterios de aceptacion de cada feature deben vivir en un archivo `.md` separado por feature.
 
 Instrucciones generales:
-- Genera un PRD General en Markdown nombrado `PRD_General_{NombreProyecto}.md`, donde `{NombreProyecto}` es el nombre del proyecto normalizado a ASCII (sin tildes y sin espacios).
+- Genera un PRD General en Markdown nombrado `docs/PRD_General_{NombreProyecto}.md`, donde `{NombreProyecto}` es el nombre del proyecto normalizado a ASCII (sin tildes y sin espacios).
 - Genera un archivo Markdown independiente por cada feature.
 - Si tienes acceso a filesystem, crea los archivos. Si no tienes acceso, responde con bloques separados por ruta de archivo.
 - Usa lenguaje tecnico claro, directo y ejecutable.
 - Mantente fiel al BRD. No agregues objetivos, integraciones, features o complejidad fuera de alcance.
 - El stack base es fijo y debe declararse como decision tecnica. Nucleo siempre presente: Java 21, Spring Boot 3.x, Maven, JaCoCo, JUnit 5 y Mockito. Bases fijas pero condicionales (solo si el proyecto las requiere, y si las requiere deben ser exactamente estas, no una equivalente): MySQL para persistencia y RabbitMQ para mensajeria.
-- Todo el flujo es local. Cualquier herramienta de infraestructura que corra en contenedor (MySQL, RabbitMQ, MongoDB, etc.) debe entregarse como archivo Docker Compose para que el dev la levante y pruebe en local. Esta infra es condicional: declara unicamente los servicios que el proyecto efectivamente use (misma logica condicional del stack); no agregues herramientas fuera de alcance, por ejemplo no incluyas una base NoSQL como MongoDB si el proyecto no la necesita. Como el entorno es exclusivamente local, los valores de configuracion de esos servicios (usuario, password, puerto, nombre de base, vhost, etc.) van dummy y hardcodeados en el compose; nunca secretos reales ni referencias a `.env`. Adaptar estos servicios a otros ambientes es responsabilidad del dev y queda fuera de alcance.
+- Todo el flujo es local. Cualquier herramienta de infraestructura que corra en contenedor (MySQL, RabbitMQ, etc.) debe entregarse como archivo Docker Compose para que el dev la levante y pruebe en local. Esta infra es condicional: declara unicamente los servicios que el proyecto efectivamente use (misma logica condicional del stack); no agregues herramientas fuera de alcance, por ejemplo no incluyas una base NoSQL como MongoDB si el proyecto no la necesita. Como el entorno es exclusivamente local, los valores de configuracion de esos servicios (usuario, password, puerto, nombre de base, vhost, etc.) van dummy y hardcodeados en el compose; nunca secretos reales ni referencias a `.env`. Adaptar estos servicios a otros ambientes es responsabilidad del dev y queda fuera de alcance.
 - Cualquier otra herramienta debe quedar a discusion. No la declares como decision cerrada salvo que el BRD la exija explicitamente.
 - Si falta una decision tecnica fuera del stack base, propone la opcion mas simple, local y conservadora, pero marcala como `A discusion`.
 - Usa nomenclatura de features secuenciales como `F00`, `F01`, `F02`, etc.; `F00` es siempre la feature de estructura base del proyecto.
@@ -53,7 +53,7 @@ Estructura obligatoria del PRD General:
 **Version:** 1.0
 **Fecha:** [YYYY-MM-DD]
 **Alcance:** [Alcance tecnico resumido]
-**Fuente:** `BRD_General_{NombreProyecto}.md`
+**Fuente:** `docs/BRD_General_{NombreProyecto}.md`
 
 ## 1. Contexto General
 Resume el producto desde el punto de vista tecnico. Incluye el flujo tecnico obligatorio en bloque `text` si el sistema tiene flujo secuencial, asincrono o por estados.
@@ -96,7 +96,7 @@ Define exchanges, queues, topics, jobs, workers o procesos internos si aplican. 
 Enumera endpoints minimos o contratos de interfaz. Incluye metodos, rutas y codigos esperados de forma general.
 
 ## 10. Validacion Y Pruebas
-Define reglas de pruebas unitarias, funcionales, manuales, cobertura, herramientas y documentacion de validacion.
+Define reglas de pruebas unitarias, funcionales, manuales, cobertura, herramientas y documentacion de validacion. La cobertura objetivo es > 80% medida con JaCoCo solo sobre codigo testeable (no aplica a DTOs, entidades, configuracion ni cuando aun no hay logica que probar).
 
 ## 11. Features Secuenciales Para Agentes
 Enumera las features en orden. Cada feature debe incluir solo:
@@ -117,11 +117,13 @@ No incluyas detalle de implementacion en esta seccion.
 No incluyas listas largas de tareas en esta seccion.
 
 ### Notas sobre features.
-- Agrega una F00 - Estructura
-- El agente debe generar la estructura del paquete con arquitectura basado en package-by-layer
-- Estructura de controllers, services, clients, repository, model, config etc.
-- Los dtos (in/out) http deben estar en la capa correspondiente.
-- Otros dtos deben ir en su respectiva capa.
+- Agrega una F00 - Estructura.
+- F00 primero revisa la estructura actual del proyecto: si ya existe, verifica que tenga lo minimo para arrancar; si no existe, la crea junto con ese minimo.
+- Minimo para arrancar (proyecto construible y ejecutable en local): `pom.xml` con parent de Spring Boot 3.x, Java 21, `spring-boot-maven-plugin` y plugin de JaCoCo; clase principal `Application`; `application.properties` base (no se usa YAML). El esqueleto debe arrancar sin base de datos: las dependencias de persistencia (JPA, driver MySQL) y de mensajeria entran con la feature que las requiera, no en F00.
+- F00 no se prueba con pruebas unitarias ni funcionales (no hay logica ni endpoints): su validacion es solo que compile y arranque (`mvn test` en verde aunque sin tests y `mvn spring-boot:run` llega a `Started ...Application`). Las pruebas propiamente dichas empiezan en F01.
+- Genera la estructura de paquetes con arquitectura package-by-layer (controllers, services, clients, repository, model, config, etc.).
+- Los DTOs (in/out) HTTP van en su capa correspondiente; los demas DTOs en su respectiva capa.
+- F00 no implementa logica de negocio: solo deja el esqueleto construible y vacio, listo para las features siguientes.
 
 ## 12. Guia Para Agentes Implementadores
 Define reglas generales que aplican a todas las features: respetar alcance, pruebas, documentacion, arquitectura, configuracion, contratos y nombres.
@@ -129,13 +131,13 @@ Define reglas generales que aplican a todas las features: respetar alcance, prue
 ## 13. Seccion DevOps Local / Ejecucion Local
 Define solo servicios locales, puertos locales, variables de entorno, archivos esperados y comandos de ejecucion local. Esta seccion no define infraestructura productiva, despliegue cloud, Kubernetes, Terraform, pipelines CI/CD ni operacion en ambientes reales.
 
-Para cada herramienta de infraestructura que el proyecto requiera correr en local (MySQL, RabbitMQ, MongoDB u otra que se haya decidido), declara el entregable de Docker Compose:
+Para cada herramienta de infraestructura que el proyecto requiera correr en local (MySQL, RabbitMQ u otra que se haya decidido), declara el entregable de Docker Compose:
 
 - Un `docker-compose.yml` en la raiz del proyecto con un servicio por herramienta requerida (si se justifica separar, se permiten archivos adicionales `docker-compose.*.yml` en la raiz).
 - Valores dummy hardcodeados en el compose (usuario, password, puerto, nombre de base, vhost, etc.); nunca secretos reales ni referencias a `.env`.
 - Puertos publicados hacia localhost y, cuando aplique, volumen local para persistencia.
 - Comandos de operacion: `docker compose up -d` para levantar y `docker compose down` para detener.
-- Orden esperado para probar en local: levantar el compose, ejecutar el DDL de `db/` cuando haya persistencia, y luego correr la app con `mvn spring-boot:run`.
+- Orden esperado para probar en local: levantar el compose, ejecutar el DDL de `db/` cuando haya persistencia, y luego correr la app con `mvn spring-boot:run` (pasando las variables de `functional-test-env.local` como entorno).
 - El agente deja el compose versionado y listo para ejecutar; adaptar estos servicios a otros ambientes (secretos reales, gestores de configuracion o infraestructura administrada) es responsabilidad del dev y queda fuera de alcance.
 
 ## 14. Fuera De Alcance Tecnico
@@ -180,9 +182,9 @@ Usa `No aplica` en las subsecciones que no correspondan.
 
 La documentacion de la subseccion 5.7 se materializa como una coleccion de Postman en la carpeta `postman/` del proyecto (no en `src/main/resources`).
 
-Si la subseccion 5.3 implica cambios de esquema, el entregable es un script SQL (DDL) en `db/` que el dev ejecuta manualmente en MySQL local; el agente no ejecuta DDL.
+Si la subseccion 5.3 implica cambios de esquema, el entregable es el script SQL (DDL) en `db/` (ver seccion 7); el agente no ejecuta DDL.
 
-Si la subseccion 5.5 (o la feature) introduce o requiere un servicio de infraestructura local (MySQL, RabbitMQ, MongoDB, etc.), el entregable incluye o actualiza ese servicio en el `docker-compose.yml` de la raiz, con valores dummy hardcodeados para uso local; el agente deja el compose listo para levantar.
+Si la subseccion 5.5 (o la feature) introduce o requiere un servicio de infraestructura local, incluye o actualiza ese servicio en el `docker-compose.yml` de la raiz (ver seccion 13).
 
 ## 6. Criterios De Aceptacion
 Define criterios verificables. Usa bullets claros. Incluye comportamiento esperado, validaciones, codigos de respuesta, estados, logs, persistencia o documentacion cuando aplique.

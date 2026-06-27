@@ -8,6 +8,7 @@ Cuando escribas tests:
 3. No se escriben tests sobre Entidades, DTOs(Clases/Records) sin lógica, Getters, Setters, Equals, HashCode y ToString
 4. No se escriben tests sobre Clases de Configuración de Spring, Interfaces de Repositorios, Wrapper
 5. Si consideras que algo contraindicado necesita tests, pregunta primero al dev.
+6. La cobertura objetivo es **> 80%**, medida solo sobre el código testeable (excluye lo de los puntos 3 y 4). Si al inicio no hay código testeable (p. ej. solo DTOs, entidades o configuración), la cobertura no aplica.
 
 Cuando ejecutes tests:
 1. Analiza los resultados — no solo reportes números, explica los fallos
