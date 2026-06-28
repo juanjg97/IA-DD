@@ -1,0 +1,259 @@
+{
+  "info": {
+    "_postman_id": "44444444-4444-4444-8444-444444444444",
+    "name": "SWAPI People 1-5 Mockoon",
+    "description": "Collection to consume the Mockoon mock API generated from https://swapi.info/api/people/{id} for IDs 1 to 5.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "People",
+      "item": [
+        {
+          "name": "Get Luke Skywalker",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns Luke Skywalker', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.name).to.eql('Luke Skywalker');",
+                  "  pm.expect(json.url).to.eql('https://swapi.info/api/people/1');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/people/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "people",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get C-3PO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns C-3PO', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.name).to.eql('C-3PO');",
+                  "  pm.expect(json.url).to.eql('https://swapi.info/api/people/2');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/people/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "people",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get R2-D2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns R2-D2', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.name).to.eql('R2-D2');",
+                  "  pm.expect(json.url).to.eql('https://swapi.info/api/people/3');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/people/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "people",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Darth Vader",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns Darth Vader', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.name).to.eql('Darth Vader');",
+                  "  pm.expect(json.url).to.eql('https://swapi.info/api/people/4');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/people/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "people",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Leia Organa",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns Leia Organa', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json.name).to.eql('Leia Organa');",
+                  "  pm.expect(json.url).to.eql('https://swapi.info/api/people/5');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/people/5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "people",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.test('Response is JSON', function () {",
+          "  pm.response.to.be.json;",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

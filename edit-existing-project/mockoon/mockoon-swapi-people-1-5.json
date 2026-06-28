@@ -1,0 +1,232 @@
+{
+  "uuid": "11111111-1111-4111-8111-111111111111",
+  "lastMigration": 33,
+  "name": "SWAPI People 1-5 Mock",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "22222222-2222-4222-8222-222222222221",
+      "type": "http",
+      "documentation": "Mock response copied from https://swapi.info/api/people/1",
+      "method": "get",
+      "endpoint": "api/people/1",
+      "responses": [
+        {
+          "uuid": "33333333-3333-4333-8333-333333333331",
+          "body": "{\n  \"name\": \"Luke Skywalker\",\n  \"height\": \"172\",\n  \"mass\": \"77\",\n  \"hair_color\": \"blond\",\n  \"skin_color\": \"fair\",\n  \"eye_color\": \"blue\",\n  \"birth_year\": \"19BBY\",\n  \"gender\": \"male\",\n  \"homeworld\": \"https://swapi.info/api/planets/1\",\n  \"films\": [\n    \"https://swapi.info/api/films/1\",\n    \"https://swapi.info/api/films/2\",\n    \"https://swapi.info/api/films/3\",\n    \"https://swapi.info/api/films/6\"\n  ],\n  \"species\": [],\n  \"vehicles\": [\n    \"https://swapi.info/api/vehicles/14\",\n    \"https://swapi.info/api/vehicles/30\"\n  ],\n  \"starships\": [\n    \"https://swapi.info/api/starships/12\",\n    \"https://swapi.info/api/starships/22\"\n  ],\n  \"created\": \"2014-12-09T13:50:51.644000Z\",\n  \"edited\": \"2014-12-20T21:17:56.891000Z\",\n  \"url\": \"https://swapi.info/api/people/1\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Luke Skywalker",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222222",
+      "type": "http",
+      "documentation": "Mock response copied from https://swapi.info/api/people/2",
+      "method": "get",
+      "endpoint": "api/people/2",
+      "responses": [
+        {
+          "uuid": "33333333-3333-4333-8333-333333333332",
+          "body": "{\n  \"name\": \"C-3PO\",\n  \"height\": \"167\",\n  \"mass\": \"75\",\n  \"hair_color\": \"n/a\",\n  \"skin_color\": \"gold\",\n  \"eye_color\": \"yellow\",\n  \"birth_year\": \"112BBY\",\n  \"gender\": \"n/a\",\n  \"homeworld\": \"https://swapi.info/api/planets/1\",\n  \"films\": [\n    \"https://swapi.info/api/films/1\",\n    \"https://swapi.info/api/films/2\",\n    \"https://swapi.info/api/films/3\",\n    \"https://swapi.info/api/films/4\",\n    \"https://swapi.info/api/films/5\",\n    \"https://swapi.info/api/films/6\"\n  ],\n  \"species\": [\n    \"https://swapi.info/api/species/2\"\n  ],\n  \"vehicles\": [],\n  \"starships\": [],\n  \"created\": \"2014-12-10T15:10:51.357000Z\",\n  \"edited\": \"2014-12-20T21:17:50.309000Z\",\n  \"url\": \"https://swapi.info/api/people/2\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "C-3PO",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222223",
+      "type": "http",
+      "documentation": "Mock response copied from https://swapi.info/api/people/3",
+      "method": "get",
+      "endpoint": "api/people/3",
+      "responses": [
+        {
+          "uuid": "33333333-3333-4333-8333-333333333333",
+          "body": "{\n  \"name\": \"R2-D2\",\n  \"height\": \"96\",\n  \"mass\": \"32\",\n  \"hair_color\": \"n/a\",\n  \"skin_color\": \"white, blue\",\n  \"eye_color\": \"red\",\n  \"birth_year\": \"33BBY\",\n  \"gender\": \"n/a\",\n  \"homeworld\": \"https://swapi.info/api/planets/8\",\n  \"films\": [\n    \"https://swapi.info/api/films/1\",\n    \"https://swapi.info/api/films/2\",\n    \"https://swapi.info/api/films/3\",\n    \"https://swapi.info/api/films/4\",\n    \"https://swapi.info/api/films/5\",\n    \"https://swapi.info/api/films/6\"\n  ],\n  \"species\": [\n    \"https://swapi.info/api/species/2\"\n  ],\n  \"vehicles\": [],\n  \"starships\": [],\n  \"created\": \"2014-12-10T15:11:50.376000Z\",\n  \"edited\": \"2014-12-20T21:17:50.311000Z\",\n  \"url\": \"https://swapi.info/api/people/3\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "R2-D2",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222224",
+      "type": "http",
+      "documentation": "Mock response copied from https://swapi.info/api/people/4",
+      "method": "get",
+      "endpoint": "api/people/4",
+      "responses": [
+        {
+          "uuid": "33333333-3333-4333-8333-333333333334",
+          "body": "{\n  \"name\": \"Darth Vader\",\n  \"height\": \"202\",\n  \"mass\": \"136\",\n  \"hair_color\": \"none\",\n  \"skin_color\": \"white\",\n  \"eye_color\": \"yellow\",\n  \"birth_year\": \"41.9BBY\",\n  \"gender\": \"male\",\n  \"homeworld\": \"https://swapi.info/api/planets/1\",\n  \"films\": [\n    \"https://swapi.info/api/films/1\",\n    \"https://swapi.info/api/films/2\",\n    \"https://swapi.info/api/films/3\",\n    \"https://swapi.info/api/films/6\"\n  ],\n  \"species\": [],\n  \"vehicles\": [],\n  \"starships\": [\n    \"https://swapi.info/api/starships/13\"\n  ],\n  \"created\": \"2014-12-10T15:18:20.704000Z\",\n  \"edited\": \"2014-12-20T21:17:50.313000Z\",\n  \"url\": \"https://swapi.info/api/people/4\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Darth Vader",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222225",
+      "type": "http",
+      "documentation": "Mock response copied from https://swapi.info/api/people/5",
+      "method": "get",
+      "endpoint": "api/people/5",
+      "responses": [
+        {
+          "uuid": "33333333-3333-4333-8333-333333333335",
+          "body": "{\n  \"name\": \"Leia Organa\",\n  \"height\": \"150\",\n  \"mass\": \"49\",\n  \"hair_color\": \"brown\",\n  \"skin_color\": \"light\",\n  \"eye_color\": \"brown\",\n  \"birth_year\": \"19BBY\",\n  \"gender\": \"female\",\n  \"homeworld\": \"https://swapi.info/api/planets/2\",\n  \"films\": [\n    \"https://swapi.info/api/films/1\",\n    \"https://swapi.info/api/films/2\",\n    \"https://swapi.info/api/films/3\",\n    \"https://swapi.info/api/films/6\"\n  ],\n  \"species\": [],\n  \"vehicles\": [\n    \"https://swapi.info/api/vehicles/30\"\n  ],\n  \"starships\": [],\n  \"created\": \"2014-12-10T15:20:09.791000Z\",\n  \"edited\": \"2014-12-20T21:17:50.315000Z\",\n  \"url\": \"https://swapi.info/api/people/5\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Leia Organa",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "uuid": "22222222-2222-4222-8222-222222222221",
+      "type": "route"
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222222",
+      "type": "route"
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222223",
+      "type": "route"
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222224",
+      "type": "route"
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222225",
+      "type": "route"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [],
+  "proxyReqHeaders": [],
+  "proxyResHeaders": [],
+  "data": [],
+  "callbacks": []
+}
