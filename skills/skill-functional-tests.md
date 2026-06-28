@@ -21,7 +21,7 @@ El agente debe preguntar antes de ejecutar comandos `curl` y `kill`, estos deben
 2. **Levantar en segundo plano** — leer las variables de `functional-test-env.local` y pasarlas como variables de entorno al ejecutar `mvn spring-boot:run` (la app usa `application.properties` con placeholders sin default, así que sin esas variables no arranca); redirigir la salida a un log. El comando va con las variables inline (`VAR=… mvn spring-boot:run`), así que pedirá confirmación de permiso al dev; es esperado.
 3. **Esperar que inicie** — poll sobre el log buscando `Started .*Application`, esperar hasta ~60 s.
 4. **Ejecutar el curl** — si la feature tocó el flujo HTTP, construir la petición desde la colección de Postman en `postman/` (endpoint, método, body), tomando host/puerto/credenciales mock de `functional-test-env.local`. Si no existe colección, validar al menos que la app arrancó (startup/health).
-5. **Verificar la respuesta** — comparar contra el valor esperado.
+5. **Verificar la respuesta** — comparar contra el valor esperado. Para endpoints de **escritura** (que persisten), confirmar además que el dato quedó guardado con una consulta `SELECT` vía `docker exec` sobre el contenedor de la BD.
 6. **Reportar resultado** — resumir status HTTP, validación de body y cualquier error relevante.
 7. **Detener el proceso** — `kill $PID` al terminar. (Considerar -Dspring-boot.run.fork=false)
 

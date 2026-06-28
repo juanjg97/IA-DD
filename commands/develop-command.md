@@ -33,7 +33,6 @@ Al implementar:
 - En `F00` creas la estructura de paquetes (package-by-layer, según el PRD General); en las features siguientes te basas en la ya implementada.
 - Nunca ejecutes cambios de estructura (DDL) contra la base de datos: entrégalos como script SQL listo en `db/` e indica al dev que los ejecute en su MySQL local (Docker); el esquema productivo es responsabilidad del equipo DBA. La manipulación de datos (DML) sí está permitida.
 - Si la feature requiere infraestructura local (MySQL, RabbitMQ, etc.), deja o actualiza el `docker-compose.yml` de la raíz con valores dummy hardcodeados; no ejecutes el compose, lo levanta el dev.
-- Si existe `docs/references/`, úsala como fuente de los contratos y payloads exactos (DTOs, Postman, pruebas).
 
 Al revisar:
 Adopta el comportamiento del siguiente agente: agents/dev-reviewer.md
